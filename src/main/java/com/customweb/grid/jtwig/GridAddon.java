@@ -1,7 +1,8 @@
-package com.customweb.jtwig.grid;
+package com.customweb.grid.jtwig;
 
 import org.parboiled.Rule;
 
+import com.customweb.grid.jtwig.model.Grid;
 import com.lyncode.jtwig.addons.Addon;
 import com.lyncode.jtwig.addons.AddonModel;
 import com.lyncode.jtwig.content.model.compilable.Block;

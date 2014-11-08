@@ -1,4 +1,6 @@
-package com.customweb.jtwig.grid;
+package com.customweb.grid.jtwig.model;
+
+import java.io.IOException;
 
 import com.lyncode.jtwig.addons.AddonModel;
 import com.lyncode.jtwig.compile.CompileContext;
@@ -38,7 +40,14 @@ public class Grid extends AddonModel<Grid> {
 			context = context.isolatedModel();
 			context.with("other", "sample");
 			
-			this.content.render(context);
+			try {
+				context.write("<div>".getBytes());
+				this.content.render(context);
+				context.write("</div>".getBytes());
+			} catch (IOException e) {
+			}
+			
+			
 		}
 	}
 
