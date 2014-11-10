@@ -22,7 +22,6 @@ public class GridTest {
 		
 		JtwigConfiguration config = new JtwigConfiguration();
 		config.parse().addons().withAddon(GridAddon.class);
-		
 		JtwigTemplate template = new JtwigTemplate(new ClasspathJtwigResource("classpath:/views/default.twig.html"), config);
 		
 		JtwigModelMap map = new JtwigModelMap();
