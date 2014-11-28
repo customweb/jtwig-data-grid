@@ -22,16 +22,15 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>com.lyncode</groupId>
-			<artifactId>jtwig-core</artifactId>
-			<version>3.0.0</version>
+			<groupId>com.customweb</groupId>
+			<artifactId>jtwig-lib</artifactId>
+			<version>1.0.0</version>
 		</dependency>
-
+		
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<groupId>com.customweb</groupId>
+			<artifactId>data-grid</artifactId>
+			<version>1.0.0</version>
 		</dependency>
-
 	</dependencies>
 </project>

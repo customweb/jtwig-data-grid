@@ -6,7 +6,7 @@ import java.io.File;
 
 import org.junit.Test;
 
-import com.customweb.grid.jtwig.GridAddon;
+import com.customweb.jtwig.grid.addon.GridAddon;
 import com.lyncode.jtwig.JtwigModelMap;
 import com.lyncode.jtwig.JtwigTemplate;
 import com.lyncode.jtwig.configuration.JtwigConfiguration;
