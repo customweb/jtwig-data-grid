@@ -1,0 +1,17 @@
+<table {{ table.dynamicAttributes|join(' ') }}>
+	<tbody>
+		{% for row in table.rows %}
+			<tr>{{ row }}</tr>
+		{% endfor %}
+	</tbody>
+	<thead>
+		<tr class="grid-header-row">
+			{{ table.headerContent }}
+		</tr>
+		{% if table.showfilterrow %}
+			<tr class="grid.filter-row">
+				{{ table.filterContent }}
+			</tr>
+		{% endif %}
+	</thead>
+</table>

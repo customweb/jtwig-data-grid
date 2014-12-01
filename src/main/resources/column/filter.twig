@@ -1,0 +1,16 @@
+<th {{ columnFilter.dynamicAttributes|join(' ') }}>
+	{% if columnFilter.filterable %}
+		{% if (columnFilter.type == 'select') %}
+			<select name="{{ columnFilter.name }}" class="ajax-event form-control">
+				{% for value, key in columnFilter.options %}
+					<option {% if (value == columnFilter.value) %}selected="selected"{% endif %} value="{{ value }}">{{ key }}</option>
+				{% endfor %}
+			</select>
+		{% else %}
+			<input type="text" name="{{ columnFilter.name }}" value="{{ columnFilter.value }}" />
+		{% endif %}
+		{% if columnFilter.operator %}
+			<input type="hidden" name=="{{ columnFilter.operatorName }}" value="{{ columnFilter.operator }}" />
+		{% endif %}
+	{% endif %}
+</th>

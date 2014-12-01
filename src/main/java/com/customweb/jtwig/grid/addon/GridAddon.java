@@ -25,6 +25,13 @@ public class GridAddon extends AttributeAddon<GridTag> {
 	
 	public static void addons(JtwigConfiguration config) {
 		config.parse().addons().withAddon(GridAddon.class);
+		config.parse().addons().withAddon(TableAddon.class);
+		config.parse().addons().withAddon(ColumnAddon.class);
+		config.parse().addons().withAddon(PagerAddon.class);
+		config.parse().addons().withAddon(LimitAddon.class);
+		config.parse().addons().withAddon(SearchAddon.class);
+		config.parse().addons().withAddon(FilterAddon.class);
+		config.parse().addons().withAddon(SubmitAddon.class);
 	}
 
 	public GridAddon(JtwigResource resource, ParserConfiguration configuration) {

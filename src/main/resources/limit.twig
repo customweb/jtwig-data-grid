@@ -1,0 +1,5 @@
+<select class="ajax-event" name="{{ limit.resultsPerPageParameterName }}" {{ limit.dynamicAttributes|join(' ') }}>
+	{% for step in limit.steps %}
+		<option value="{{ step }}" {% if (step == limit.numberOfResulsPerPage) %}selected="selected"{% endif %}>{{ step }}</option>
+	{% endfor %}
+</select>

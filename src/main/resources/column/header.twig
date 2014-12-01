@@ -1,0 +1,10 @@
+<th {{ columnHeader.dynamicAttributes|join(' ') }}>
+	{{ columnHeader.title }}
+	{% if columnHeader.sortable %}
+		<div class="sorting {{ columnHeader.orderingClass }}">
+			<a class="ajax-event" href="{{ columnHeader.sortingUrlAsc }}"><span class="ascending glyphicon glyphicon-chevron-up">&nbsp;</span></a>
+			<a class="ajax-event" href="{{ columnHeader.sortingUrlDesc }}"><span class="descending glyphicon glyphicon-chevron-down">&nbsp;</span></a>
+			<a class="ajax-event" href="{{ columnHeader.sortingUrlReset }}"><span class="reset-sorting glyphicon glyphicon-remove">&nbsp;</span></a>
+		</div>
+	{% endif %}
+</th>

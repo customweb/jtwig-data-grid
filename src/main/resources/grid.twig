@@ -1,0 +1,8 @@
+<div id="{{ grid.id }}" {{ grid.dynamicAttributes|join(' ') }}>
+	<form method="GET" class="ajax-event-form" action="{{ grid.url }}">
+		{% for key, value in grid.hiddenFields %}
+			<input type="hidden" name="{{ key }}" value="{{ value }}" />
+		{% endfor %}
+		{{ grid.content }}
+	</form>
+</div>

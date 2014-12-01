@@ -1,7 +1,11 @@
 package com.customweb.jtwig.grid.tag;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.customweb.grid.Grid;
+import com.customweb.grid.filter.OrderBy;
 import com.customweb.jtwig.grid.addon.GridAddon;
-import com.customweb.jtwig.lib.attribute.model.AbstractAttributeTag;
 import com.customweb.jtwig.lib.attribute.model.AttributeCollection;
 import com.customweb.jtwig.lib.attribute.model.definition.AttributeDefinitionCollection;
 import com.customweb.jtwig.lib.attribute.model.definition.VariableAttributeDefinition;
@@ -14,16 +18,8 @@ import com.lyncode.jtwig.exception.ResourceException;
 import com.lyncode.jtwig.render.RenderContext;
 import com.lyncode.jtwig.resource.JtwigResource;
 
-public class GridTag extends AbstractAttributeTag<GridTag> {
+public class GridTag extends AbstractGridTag<GridTag> {
 	
-	private static final String DEFAULT_MODEL_ATTRIBUTE_NAME = "gridModel";
-	
-	private static final String MODEL_ATTRIBUTE = "modelAttribute";
-	
-	public static final String MODEL_ATTRIBUTE_VARIABLE_NAME = GridTag.class.getName() + "." + MODEL_ATTRIBUTE;
-	
-	public static final String GRID_ID_ATTRIBUTE_NAME = GridTag.class.getName() + ".id";
-
 	@Override
 	public AttributeDefinitionCollection getAttributeDefinitions() {
 		AttributeDefinitionCollection attributeDefinitions = super.getAttributeDefinitions();
@@ -41,13 +37,9 @@ public class GridTag extends AbstractAttributeTag<GridTag> {
 		}
 	}
 
-	private class Compiled extends AbstractAttributeTag<GridTag>.Compiled {
+	private class Compiled extends AbstractGridTag<GridTag>.Compiled {
 		protected Compiled(Renderable block, Renderable content, AttributeCollection attributeCollection) {
 			super(block, content, attributeCollection);
-		}
-
-		public String getId() {
-			return this.getModelAttribute();
 		}
 
 		public String getModelAttribute() {
@@ -61,24 +53,41 @@ public class GridTag extends AbstractAttributeTag<GridTag> {
 		@Override
 		public void prepareContext(RenderContext context) throws RenderException {
 			context.with(MODEL_ATTRIBUTE_VARIABLE_NAME, this.getModelAttribute());
-			context.with(GRID_ID_ATTRIBUTE_NAME, this.getId());
+			//context.with(NESTED_PATH_VARIABLE_NAME, this.getModelAttribute() + PropertyAccessor.NESTED_PROPERTY_SEPARATOR);
 			
-			context.with("grid", new Data(this.getId(), this.renderContentAsString(context), context, this.getAttributeCollection()));
+			context.with("grid", new Data(this.renderContentAsString(context), context, this.getAttributeCollection()));
 		}
 	}
 	
-	public class Data extends AbstractAttributeTag<GridTag>.Data {
-		private String id;
+	public class Data extends AbstractGridTag<GridTag>.Data {
+		private Map<String, String> hiddenFields;
 		private String content;
 		
-		protected Data(String id, String content, RenderContext context, AttributeCollection attributeCollection) {
+		protected Data(String content, RenderContext context, AttributeCollection attributeCollection) {
 			super(context, attributeCollection);
-			this.id = id;
 			this.content = content;
 		}
 		
 		public String getId() {
-			return this.id;
+			return this.getGrid().getGridId();
+		}
+		
+		public String getUrl() {
+			return this.getGrid().getCurrentUrl().getPath();
+		}
+		
+		public Map<String, String> getHiddenFields() {
+			if (this.hiddenFields == null) {
+				this.hiddenFields = new HashMap<String, String>();
+				int pageNumber = this.getGrid().getFilter().getPageNumber();
+				
+				this.hiddenFields.put(Grid.getPageNumberParameter(this.getGrid().getGridId()), new Integer(pageNumber).toString());
+				
+				for (OrderBy orderBy : this.getGrid().getFilter().getOrderBys()) {
+					this.hiddenFields.put(this.getGrid().getOrderByParameterName(orderBy.getFieldName()), orderBy.getSorting());
+				}
+			}
+			return this.hiddenFields;
 		}
 		
 		public String getContent() {

@@ -1,0 +1,4 @@
+<input name="{{ columnFilter.parameterName }}" value="{{ columnFilter.value }}" {{ columnFilter.dynamicAttributes|join(' ') }} />
+{% if columnFilter.customOperator %}
+	<input {% if (columnFilter.showoperator != true) %}type="hidden"{% endif %} name="{{ columnFilter.operatorName }}" value="{{ columnFilter.operatorValue }}" />
+{% endif %}
