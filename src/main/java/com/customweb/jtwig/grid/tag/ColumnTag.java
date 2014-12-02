@@ -101,13 +101,13 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 		}
 
 		public void renderHeader(RenderContext context) throws RenderException {
-			context = context.isolatedModel();
+			context = this.isolatedModel(context);
 			context.with("columnHeader", new HeaderData(context, this.getAttributeCollection()));
 			this.getHeaderBlock().render(context);
 		}
 
 		public void renderFilter(RenderContext context) throws RenderException {
-			context = context.isolatedModel();
+			context = this.isolatedModel(context);
 			context.with("columnFilter", new FilterData(context, this.getAttributeCollection()));
 			this.getFilterBlock().render(context);
 		}
