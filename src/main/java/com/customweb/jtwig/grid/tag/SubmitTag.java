@@ -2,6 +2,7 @@ package com.customweb.jtwig.grid.tag;
 
 import com.customweb.jtwig.grid.addon.GridAddon;
 import com.customweb.jtwig.lib.attribute.model.AttributeCollection;
+import com.customweb.jtwig.lib.attribute.model.definition.AttributeDefinitionCollection;
 import com.lyncode.jtwig.compile.CompileContext;
 import com.lyncode.jtwig.content.api.Renderable;
 import com.lyncode.jtwig.exception.CompileException;
@@ -12,6 +13,13 @@ import com.lyncode.jtwig.render.RenderContext;
 import com.lyncode.jtwig.resource.JtwigResource;
 
 public class SubmitTag extends AbstractGridTag<SubmitTag> {
+	
+	@Override
+	public AttributeDefinitionCollection getAttributeDefinitions() {
+		AttributeDefinitionCollection attributeDefinitions = super.getAttributeDefinitions();
+		attributeDefinitions.getDynamicAttributeDefinition().addDisallowedKeys("type");
+		return attributeDefinitions;
+	}
 
 	@Override
 	public Renderable compile(CompileContext context) throws CompileException {

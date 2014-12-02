@@ -3,6 +3,7 @@ package com.customweb.jtwig.grid.tag;
 import com.customweb.grid.Grid;
 import com.customweb.jtwig.lib.attribute.model.AbstractAttributeTag;
 import com.customweb.jtwig.lib.attribute.model.AttributeCollection;
+import com.customweb.jtwig.lib.attribute.model.DynamicAttribute;
 import com.lyncode.jtwig.content.api.Renderable;
 import com.lyncode.jtwig.render.RenderContext;
 
@@ -12,9 +13,6 @@ abstract public class AbstractGridTag<T extends AbstractGridTag<T>> extends Abst
 	public static final String MODEL_ATTRIBUTE = "modelAttribute";
 
 	public static final String MODEL_ATTRIBUTE_VARIABLE_NAME = GridTag.class.getName() + "." + MODEL_ATTRIBUTE;
-
-	// public static final String NESTED_PATH_VARIABLE_NAME =
-	// AbstractDataBoundFormElementTag.NESTED_PATH_VARIABLE_NAME;
 
 	abstract protected class Compiled extends AbstractAttributeTag<GridTag>.Compiled {
 		protected Compiled(Renderable block, Renderable content, AttributeCollection attributeCollection) {
@@ -34,6 +32,13 @@ abstract public class AbstractGridTag<T extends AbstractGridTag<T>> extends Abst
 				this.grid = (Grid<?>) this.getContext().map((String) this.getContext().map(MODEL_ATTRIBUTE_VARIABLE_NAME));
 			}
 			return this.grid;
+		}
+
+		protected final void extendDynamicAttribute(String key, String value) {
+			if (this.getAttributeCollection().hasAttribute(key)) {
+				value = this.getAttributeValue(key) + " " + value;
+			}
+			this.getAttributeCollection().addAttribute(new DynamicAttribute(key, value));
 		}
 	}
 }

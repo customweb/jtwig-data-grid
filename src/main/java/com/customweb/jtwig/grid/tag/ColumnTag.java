@@ -37,13 +37,13 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 	public AttributeDefinitionCollection getAttributeDefinitions() {
 		AttributeDefinitionCollection attributeDefinitions = super.getAttributeDefinitions();
 		attributeDefinitions.add(new NamedAttributeDefinition("title", false));
-		attributeDefinitions.add(new NamedAttributeDefinition("fieldname", false));
+		attributeDefinitions.add(new NamedAttributeDefinition("fieldName", false));
 		attributeDefinitions.add(new EmptyAttributeDefinition("sortable"));
 		attributeDefinitions.add(new EmptyAttributeDefinition("filterable"));
-		attributeDefinitions.add(new VariableAttributeDefinition("filteroptions", false));
-		attributeDefinitions.add(new NamedAttributeDefinition("filteroperator", false));
-		attributeDefinitions.add(new NamedAttributeDefinition("labelfortrue", false));
-		attributeDefinitions.add(new NamedAttributeDefinition("labelforfalse", false));
+		attributeDefinitions.add(new VariableAttributeDefinition("filterOptions", false));
+		attributeDefinitions.add(new NamedAttributeDefinition("filterOperator", false));
+		attributeDefinitions.add(new NamedAttributeDefinition("labelForTrue", false));
+		attributeDefinitions.add(new NamedAttributeDefinition("labelForFalse", false));
 		return attributeDefinitions;
 	}
 
@@ -113,7 +113,17 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 		}
 	}
 	
-	public class Data extends AbstractGridTag<ColumnTag>.Data {
+	abstract public class AbstractData extends AbstractGridTag<ColumnTag>.Data {
+		protected AbstractData(RenderContext context, AttributeCollection attributeCollection) {
+			super(context, attributeCollection);
+		}
+
+		protected String getFieldName() {
+			return this.getAttributeValue("fieldName", null);
+		}
+	}
+	
+	public class Data extends AbstractData {
 		private String content;
 		
 		protected Data(String content, RenderContext context, AttributeCollection attributeCollection) {
@@ -134,17 +144,9 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 				}
 			}
 		}
-		
-		private String getFieldName() {
-			if (this.getAttributeCollection().hasAttribute("fieldname")) {
-				return this.getAttributeValue("fieldname");
-			} else {
-				return null;
-			}
-		}
 	}
 
-	public class HeaderData extends AbstractGridTag<ColumnTag>.Data {
+	public class HeaderData extends AbstractData {
 		protected HeaderData(RenderContext context, AttributeCollection attributeCollection) {
 			super(context, attributeCollection);
 		}
@@ -152,8 +154,8 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 		public String getTitle() {
 			if (this.getAttributeCollection().hasAttribute("title")) {
 				return this.getAttributeValue("title");
-			} else if (this.getAttributeCollection().hasAttribute("fieldname")) {
-				return this.getAttributeValue("fieldname");
+			} else if (this.getAttributeCollection().hasAttribute("fieldName")) {
+				return this.getAttributeValue("fieldName");
 			} else {
 				return "";
 			}
@@ -166,35 +168,27 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 		public String getOrderingClass() {
 			String order = this.getGrid().getFilter().getOrderBy(this.getFieldName());
 			if (order != null && order.equalsIgnoreCase("ASC")) {
-				return "ascending-sorting";
+				return "sorting-asc";
 			} else if (order != null && order.equalsIgnoreCase("DESC")) {
-				return "descending-sorting";
-			}
-			return "no-sorting";
-		}
-		
-		public String getSortingUrlAsc() {
-			return this.getGrid().getSortingUrl(getFieldName(), true, false);
-		}
-		
-		public String getSortingUrlDesc() {
-			return this.getGrid().getSortingUrl(getFieldName(), false, true);
-		}
-		
-		public String getSortingUrlReset() {
-			return this.getGrid().getSortingUrl(getFieldName(), false, false);
-		}
-		
-		private String getFieldName() {
-			if (this.getAttributeCollection().hasAttribute("fieldname")) {
-				return this.getAttributeValue("fieldname");
+				return "sorting-desc";
 			} else {
-				return "";
+				return "no-sorting";
+			}
+		}
+		
+		public String getSortingUrl() {
+			String order = this.getGrid().getFilter().getOrderBy(this.getFieldName());
+			if (order != null && order.equalsIgnoreCase("ASC")) {
+				return this.getGrid().getSortingUrl(getFieldName(), false, true);
+			} else if (order != null && order.equalsIgnoreCase("DESC")) {
+				return this.getGrid().getSortingUrl(getFieldName(), false, false);
+			} else {
+				return this.getGrid().getSortingUrl(getFieldName(), true, false);
 			}
 		}
 	}
 
-	public class FilterData extends AbstractGridTag<ColumnTag>.Data {
+	public class FilterData extends AbstractData {
 		protected FilterData(RenderContext context, AttributeCollection attributeCollection) {
 			super(context, attributeCollection);
 		}
@@ -224,8 +218,8 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 				values.put("true", getLabelForTrue());
 				values.put("false", getLabelForFalse());
 				return values;
-			} else if (this.getAttributeCollection().hasAttribute("filteroptions")) {
-				return (Map<String, String>) this.getAttributeCollection().getAttribute("filteroptions", VariableAttribute.class).getVariable(this.getContext());
+			} else if (this.getAttributeCollection().hasAttribute("filterOptions")) {
+				return (Map<String, String>) this.getAttributeCollection().getAttribute("filterOptions", VariableAttribute.class).getVariable(this.getContext());
 			} else {
 				return null;
 			}
@@ -246,39 +240,19 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 		}
 		
 		public String getOperator() {
-			if (this.getAttributeCollection().hasAttribute("filteroperator")) {
-				return this.getAttributeValue("filteroperator");
-			} else {
-				return null;
-			}
+			return this.getAttributeValue("filterOperator", null);
 		}
 		
 		public String getOperatorName() {
 			return this.getGrid().getFilterOperatorName(this.getFieldName());
 		}
 		
-		private String getFieldName() {
-			if (this.getAttributeCollection().hasAttribute("fieldname")) {
-				return this.getAttributeValue("fieldname");
-			} else {
-				return "";
-			}
-		}
-		
 		private String getLabelForTrue() {
-			if (this.getAttributeCollection().hasAttribute("labelfortrue")) {
-				return this.getAttributeValue("labelfortrue");
-			} else {
-				return "True";
-			}
+			return this.getAttributeValue("labelForTrue", "True");
 		}
 		
 		private String getLabelForFalse() {
-			if (this.getAttributeCollection().hasAttribute("labelforfalse")) {
-				return this.getAttributeValue("labelforfalse");
-			} else {
-				return "False";
-			}
+			return this.getAttributeValue("labelForFalse", "False");
 		}
 	}
 

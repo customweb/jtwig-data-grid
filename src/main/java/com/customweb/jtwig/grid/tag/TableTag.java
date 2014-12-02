@@ -28,7 +28,7 @@ public class TableTag extends AbstractAttributeTag<TableTag> {
 	public AttributeDefinitionCollection getAttributeDefinitions() {
 		AttributeDefinitionCollection attributeDefinitions = super.getAttributeDefinitions();
 		attributeDefinitions.add(new NamedAttributeDefinition("var", true));
-		attributeDefinitions.add(new EmptyAttributeDefinition("showfilterrow"));
+		attributeDefinitions.add(new EmptyAttributeDefinition("showFilterRow"));
 		return attributeDefinitions;
 	}
 
@@ -78,7 +78,7 @@ public class TableTag extends AbstractAttributeTag<TableTag> {
 		}
 		
 		public boolean isShowFilterRow() {
-			return this.getAttributeCollection().hasAttribute("showfilterrow");
+			return this.getAttributeCollection().hasAttribute("showFilterRow");
 		}
 		
 		public String getFilterContent() throws RenderException {

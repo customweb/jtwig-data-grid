@@ -22,6 +22,7 @@ public class LimitTag extends AbstractGridTag<LimitTag> {
 	public AttributeDefinitionCollection getAttributeDefinitions() {
 		AttributeDefinitionCollection attributeDefinitions = super.getAttributeDefinitions();
 		attributeDefinitions.add(new NamedAttributeDefinition("steps", true));
+		attributeDefinitions.getDynamicAttributeDefinition().addDisallowedKeys("name");
 		return attributeDefinitions;
 	}
 
@@ -49,6 +50,8 @@ public class LimitTag extends AbstractGridTag<LimitTag> {
 	public class Data extends AbstractGridTag<LimitTag>.Data {
 		protected Data(RenderContext context, AttributeCollection attributeCollection) {
 			super(context, attributeCollection);
+			
+			this.extendDynamicAttribute("class", "ajax-event");
 		}
 		
 		public String getResultsPerPageParameterName() {

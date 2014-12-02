@@ -18,7 +18,8 @@ public class SearchTag extends AbstractGridTag<SearchTag> {
 	@Override
 	public AttributeDefinitionCollection getAttributeDefinitions() {
 		AttributeDefinitionCollection attributeDefinitions = super.getAttributeDefinitions();
-		attributeDefinitions.add(new NamedAttributeDefinition("columnname", true));
+		attributeDefinitions.add(new NamedAttributeDefinition("columnName", true));
+		attributeDefinitions.getDynamicAttributeDefinition().addDisallowedKeys("name", "type");
 		return attributeDefinitions;
 	}
 
@@ -49,7 +50,7 @@ public class SearchTag extends AbstractGridTag<SearchTag> {
 		}
 		
 		public String getParameterName() {
-			return this.getGrid().getFieldFilterParameterName(this.getAttributeValue("columnname"));
+			return this.getGrid().getFieldFilterParameterName(this.getAttributeValue("columnName"));
 		}
 	}
 	

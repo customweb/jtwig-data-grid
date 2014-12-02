@@ -20,9 +20,10 @@ public class FilterTag extends AbstractGridTag<FilterTag> {
 	@Override
 	public AttributeDefinitionCollection getAttributeDefinitions() {
 		AttributeDefinitionCollection attributeDefinitions = super.getAttributeDefinitions();
-		attributeDefinitions.add(new NamedAttributeDefinition("fieldname", true));
-		attributeDefinitions.add(new NamedAttributeDefinition("defaultoperator", false));
-		attributeDefinitions.add(new EmptyAttributeDefinition("showoperator"));
+		attributeDefinitions.add(new NamedAttributeDefinition("fieldName", true));
+		attributeDefinitions.add(new NamedAttributeDefinition("defaultOperator", false));
+		attributeDefinitions.add(new EmptyAttributeDefinition("showOperator"));
+		attributeDefinitions.getDynamicAttributeDefinition().addDisallowedKeys("name", "value");
 		return attributeDefinitions;
 	}
 
@@ -70,7 +71,7 @@ public class FilterTag extends AbstractGridTag<FilterTag> {
 		}
 		
 		public boolean isShowOperator() {
-			return this.getAttributeCollection().hasAttribute("showoperator");
+			return this.getAttributeCollection().hasAttribute("showOperator");
 		}
 		
 		public String getOperatorName() {
@@ -87,19 +88,11 @@ public class FilterTag extends AbstractGridTag<FilterTag> {
 		}
 		
 		private String getDefaultOperator() {
-			if (this.getAttributeCollection().hasAttribute("defaultoperator")) {
-				return this.getAttributeValue("defaultoperator");
-			} else {
-				return "";
-			}
+			return this.getAttributeValue("defaultOperator", "");
 		}
 		
 		private String getFieldName() {
-			if (this.getAttributeCollection().hasAttribute("fieldname")) {
-				return this.getAttributeValue("fieldname");
-			} else {
-				return "";
-			}
+			return this.getAttributeValue("fieldName", "");
 		}
 	}
 	

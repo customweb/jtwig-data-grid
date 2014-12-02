@@ -1,8 +1,8 @@
 <ul {{ pager.dynamicAttributes|join(' ') }}>
-	{% if pager.startendbutton %}
+	{% if pager.showStartButton %}
 		<li class="pager-start {% if pager.firstPage %}active disabled{% endif %}"><a class="ajax-event" href="{{ pager.firstUrl }}">&laquo;</a></li>
 	{% endif %}
-	{% if pager.previousnextbutton %}
+	{% if pager.showPreviousButton %}
 		<li class="pager-previous {% if pager.firstPage %}active disabled{% endif %}"><a class="ajax-event" href="{{ pager.previousUrl }}">&lsaquo;</a></li>
 	{% endif %}
 	
@@ -10,10 +10,10 @@
 		<li {% if page.current %}class="active"{% endif %}><a class="ajax-event" href="{{ page.url }}">{{ page.label }}</a></li>
 	{% endfor %}
 	
-	{% if pager.previousnextbutton %}
+	{% if pager.showNextButton %}
 		<li class="pager-next {% if pager.lastPage %}active disabled{% endif %}"><a class="ajax-event" href="{{ pager.nextUrl }}">&rsaquo;</a></li>
 	{% endif %}
-	{% if pager.startendbutton %}
+	{% if pager.showEndButton %}
 		<li class="pager-end {% if pager.lastPage %}active disabled{% endif %}"><a class="ajax-event" href="{{ pager.endUrl }}">&raquo;</a></li>
 	{% endif %}
 </ul>

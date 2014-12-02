@@ -8,6 +8,7 @@ import com.customweb.grid.filter.OrderBy;
 import com.customweb.jtwig.grid.addon.GridAddon;
 import com.customweb.jtwig.lib.attribute.model.AttributeCollection;
 import com.customweb.jtwig.lib.attribute.model.definition.AttributeDefinitionCollection;
+import com.customweb.jtwig.lib.attribute.model.definition.EmptyAttributeDefinition;
 import com.customweb.jtwig.lib.attribute.model.definition.VariableAttributeDefinition;
 import com.lyncode.jtwig.compile.CompileContext;
 import com.lyncode.jtwig.content.api.Renderable;
@@ -19,11 +20,13 @@ import com.lyncode.jtwig.render.RenderContext;
 import com.lyncode.jtwig.resource.JtwigResource;
 
 public class GridTag extends AbstractGridTag<GridTag> {
-	
+
 	@Override
 	public AttributeDefinitionCollection getAttributeDefinitions() {
 		AttributeDefinitionCollection attributeDefinitions = super.getAttributeDefinitions();
 		attributeDefinitions.add(new VariableAttributeDefinition("model", false));
+		attributeDefinitions.add(new EmptyAttributeDefinition("ajax"));
+		attributeDefinitions.getDynamicAttributeDefinition().addDisallowedKeys("id");
 		return attributeDefinitions;
 	}
 
@@ -43,56 +46,55 @@ public class GridTag extends AbstractGridTag<GridTag> {
 		}
 
 		public String getModelAttribute() {
-			if (this.getAttributeCollection().hasAttribute("model")) {
-				return this.getAttributeValue("model");
-			} else {
-				return DEFAULT_MODEL_ATTRIBUTE_NAME;
-			}
+			return this.getAttributeValue("model", DEFAULT_MODEL_ATTRIBUTE_NAME);
 		}
 
 		@Override
 		public void prepareContext(RenderContext context) throws RenderException {
 			context.with(MODEL_ATTRIBUTE_VARIABLE_NAME, this.getModelAttribute());
-			//context.with(NESTED_PATH_VARIABLE_NAME, this.getModelAttribute() + PropertyAccessor.NESTED_PROPERTY_SEPARATOR);
-			
+
 			context.with("grid", new Data(this.renderContentAsString(context), context, this.getAttributeCollection()));
 		}
 	}
-	
+
 	public class Data extends AbstractGridTag<GridTag>.Data {
 		private Map<String, String> hiddenFields;
 		private String content;
-		
+
 		protected Data(String content, RenderContext context, AttributeCollection attributeCollection) {
 			super(context, attributeCollection);
 			this.content = content;
 		}
-		
+
+		public boolean isAjax() {
+			return this.getAttributeCollection().hasAttribute("ajax");
+		}
+
 		public String getId() {
 			return this.getGrid().getGridId();
 		}
-		
+
 		public String getUrl() {
 			return this.getGrid().getCurrentUrl().getPath();
 		}
-		
+
 		public Map<String, String> getHiddenFields() {
 			if (this.hiddenFields == null) {
 				this.hiddenFields = new HashMap<String, String>();
 				int pageNumber = this.getGrid().getFilter().getPageNumber();
-				
+
 				this.hiddenFields.put(Grid.getPageNumberParameter(this.getGrid().getGridId()), new Integer(pageNumber).toString());
-				
+
 				for (OrderBy orderBy : this.getGrid().getFilter().getOrderBys()) {
 					this.hiddenFields.put(this.getGrid().getOrderByParameterName(orderBy.getFieldName()), orderBy.getSorting());
 				}
 			}
 			return this.hiddenFields;
 		}
-		
+
 		public String getContent() {
 			return this.content;
 		}
 	}
-	
+
 }

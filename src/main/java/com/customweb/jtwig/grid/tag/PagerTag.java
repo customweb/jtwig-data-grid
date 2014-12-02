@@ -22,9 +22,11 @@ public class PagerTag extends AbstractGridTag<PagerTag> {
 	@Override
 	public AttributeDefinitionCollection getAttributeDefinitions() {
 		AttributeDefinitionCollection attributeDefinitions = super.getAttributeDefinitions();
-		attributeDefinitions.add(new NamedAttributeDefinition("maxpageitems", false));
-		attributeDefinitions.add(new EmptyAttributeDefinition("previousnextbutton"));
-		attributeDefinitions.add(new EmptyAttributeDefinition("startendbutton"));
+		attributeDefinitions.add(new NamedAttributeDefinition("maxPageItems", false));
+		attributeDefinitions.add(new EmptyAttributeDefinition("showPreviousButton"));
+		attributeDefinitions.add(new EmptyAttributeDefinition("showNextButton"));
+		attributeDefinitions.add(new EmptyAttributeDefinition("showStartButton"));
+		attributeDefinitions.add(new EmptyAttributeDefinition("showEndButton"));
 		return attributeDefinitions;
 	}
 
@@ -54,12 +56,20 @@ public class PagerTag extends AbstractGridTag<PagerTag> {
 			super(context, attributeCollection);
 		}
 		
-		public boolean hasStartendbutton() {
-			return this.getAttributeCollection().hasAttribute("startendbutton");
+		public boolean showStartButton() {
+			return this.getAttributeCollection().hasAttribute("showStartButton");
 		}
 		
-		public boolean hasPreviousnextbutton() {
-			return this.getAttributeCollection().hasAttribute("previousnextbutton");
+		public boolean showEndButton() {
+			return this.getAttributeCollection().hasAttribute("showEndButton");
+		}
+		
+		public boolean showPreviousButton() {
+			return this.getAttributeCollection().hasAttribute("showPreviousButton");
+		}
+		
+		public boolean showNextButton() {
+			return this.getAttributeCollection().hasAttribute("showNextButton");
 		}
 		
 		public boolean isFirstPage() {
@@ -107,11 +117,7 @@ public class PagerTag extends AbstractGridTag<PagerTag> {
 		}
 		
 		private int getMaxPageItems() {
-			if (this.getAttributeCollection().hasAttribute("maxpageitems")) {
-				return Integer.parseInt(this.getAttributeValue("maxpageitems"));
-			} else {
-				return 9;
-			}
+			return Integer.parseInt(this.getAttributeValue("maxPageItems", "9"));
 		}
 		
 		private int getMaxPageNumber() {
