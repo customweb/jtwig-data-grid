@@ -22,6 +22,8 @@ import com.lyncode.jtwig.resource.JtwigResource;
 
 public class TableTag extends AbstractAttributeTag<TableTag> {
 	
+	public static final String TABLE_CONTEXT_VARIABLE_NAME = TableTag.class.getName() + ".context";
+	
 	public static final String ROW_MODEL_VARIABLE_NAME = TableTag.class.getName() + ".rowModel";
 	
 	@Override
@@ -46,10 +48,25 @@ public class TableTag extends AbstractAttributeTag<TableTag> {
 		protected Compiled(Renderable block, Renderable content, AttributeCollection attributeCollection) {
 			super(block, content, attributeCollection);
 		}
+		
+		public boolean isInGridContext(RenderContext context) {
+			return context.map(GridTag.GRID_CONTEXT_VARIABLE_NAME).equals(Boolean.TRUE);
+		}
 
 		@Override
 		public void prepareContext(RenderContext context) throws RenderException {
+			context.with(TABLE_CONTEXT_VARIABLE_NAME, true);
+			
 			context.with("table", new Data(this.getContent(), context, this.getAttributeCollection()));
+		}
+		
+		@Override
+		public void render(RenderContext context) throws RenderException {
+			if (!this.isInGridContext(context)) {
+				throw new RuntimeException("The 'table' tag can only be used inside a valid 'grid' tag.");
+			}
+			
+			super.render(context);
 		}
 	}
 	

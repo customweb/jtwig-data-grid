@@ -20,6 +20,8 @@ import com.lyncode.jtwig.render.RenderContext;
 import com.lyncode.jtwig.resource.JtwigResource;
 
 public class GridTag extends AbstractGridTag<GridTag> {
+	
+	public static final String GRID_CONTEXT_VARIABLE_NAME = GridTag.class.getName() + ".context";
 
 	@Override
 	public AttributeDefinitionCollection getAttributeDefinitions() {
@@ -52,6 +54,7 @@ public class GridTag extends AbstractGridTag<GridTag> {
 		@Override
 		public void prepareContext(RenderContext context) throws RenderException {
 			context.with(MODEL_ATTRIBUTE_VARIABLE_NAME, this.getModelAttribute());
+			context.with(GRID_CONTEXT_VARIABLE_NAME, true);
 
 			context.with("grid", new Data(this.renderContentAsString(context), context, this.getAttributeCollection()));
 		}

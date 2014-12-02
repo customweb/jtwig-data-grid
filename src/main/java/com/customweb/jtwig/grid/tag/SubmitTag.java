@@ -35,10 +35,23 @@ public class SubmitTag extends AbstractGridTag<SubmitTag> {
 		protected Compiled(Renderable block, Renderable content, AttributeCollection attributeCollection) {
 			super(block, content, attributeCollection);
 		}
+		
+		public boolean isInGridContext(RenderContext context) {
+			return context.map(GridTag.GRID_CONTEXT_VARIABLE_NAME).equals(Boolean.TRUE);
+		}
 
 		@Override
 		public void prepareContext(RenderContext context) throws RenderException {
 			context.with("submit", new Data(this.renderContentAsString(context), context, this.getAttributeCollection()));
+		}
+		
+		@Override
+		public void render(RenderContext context) throws RenderException {
+			if (!this.isInGridContext(context)) {
+				throw new RuntimeException("The 'submit' tag can only be used inside a valid 'grid' tag.");
+			}
+			
+			super.render(context);
 		}
 	}
 	

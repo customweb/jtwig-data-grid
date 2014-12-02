@@ -79,6 +79,10 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 			return filterBlock;
 		}
 		
+		public boolean isInTableContext(RenderContext context) {
+			return context.map(TableTag.TABLE_CONTEXT_VARIABLE_NAME).equals(Boolean.TRUE);
+		}
+		
 		@Override
 		public void prepareContext(RenderContext context) throws RenderException {
 			context.with("column", new Data(this.renderContentAsString(context), context, this.getAttributeCollection()));
@@ -86,6 +90,10 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 
 		@Override
 		public void render(RenderContext context) throws RenderException {
+			if (!this.isInTableContext(context)) {
+				throw new RuntimeException("The 'column' tag can only be used inside a valid 'table' tag.");
+			}
+			
 			RenderType renderType = (RenderType) context.map(RENDER_TYPE_VARIABLE_NAME);
 			switch (renderType) {
 			case FILTER:

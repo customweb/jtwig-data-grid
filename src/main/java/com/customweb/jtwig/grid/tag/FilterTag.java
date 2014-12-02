@@ -41,10 +41,23 @@ public class FilterTag extends AbstractGridTag<FilterTag> {
 		protected Compiled(Renderable block, AttributeCollection attributeCollection) {
 			super(block, null, attributeCollection);
 		}
+		
+		public boolean isInGridContext(RenderContext context) {
+			return context.map(GridTag.GRID_CONTEXT_VARIABLE_NAME).equals(Boolean.TRUE);
+		}
 
 		@Override
 		public void prepareContext(RenderContext context) throws RenderException {
 			context.with("columnFilter", new Data(context, this.getAttributeCollection()));
+		}
+		
+		@Override
+		public void render(RenderContext context) throws RenderException {
+			if (!this.isInGridContext(context)) {
+				throw new RuntimeException("The 'filter' tag can only be used inside a valid 'grid' tag.");
+			}
+			
+			super.render(context);
 		}
 	}
 	
