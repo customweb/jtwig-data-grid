@@ -1,9 +1,9 @@
 <ul {{ pager.dynamicAttributes|join(' ') }}>
-	{% if pager.showStartButton %}
-		<li class="pager-start {% if pager.firstPage %}active disabled{% endif %}"><a class="ajax-event" href="{{ pager.firstUrl }}">&laquo;</a></li>
+	{% if pager.showFirstButton %}
+		<li class="pager-start {% if pager.onFirstPage %}active disabled{% endif %}">{% if pager.onFirstPage %}&laquo;{% else %}<a class="ajax-event" href="{{ pager.firstPageUrl }}">&laquo;</a>{% endif %}</li>
 	{% endif %}
 	{% if pager.showPreviousButton %}
-		<li class="pager-previous {% if pager.firstPage %}active disabled{% endif %}"><a class="ajax-event" href="{{ pager.previousUrl }}">&lsaquo;</a></li>
+		<li class="pager-previous {% if pager.onFirstPage %}active disabled{% endif %}">{% if pager.onFirstPage %}&lsaquo;{% else %}<a class="ajax-event" href="{{ pager.previousPageUrl }}">&lsaquo;</a>{% endif %}</li>
 	{% endif %}
 	
 	{% for page in pager.pages %}
@@ -11,9 +11,9 @@
 	{% endfor %}
 	
 	{% if pager.showNextButton %}
-		<li class="pager-next {% if pager.lastPage %}active disabled{% endif %}"><a class="ajax-event" href="{{ pager.nextUrl }}">&rsaquo;</a></li>
+		<li class="pager-next {% if pager.onLastPage %}active disabled{% endif %}">{% if pager.onLastPage %}&rsaquo;{% else %}<a class="ajax-event" href="{{ pager.nextPageUrl }}">&rsaquo;</a>{% endif %}</li>
 	{% endif %}
-	{% if pager.showEndButton %}
-		<li class="pager-end {% if pager.lastPage %}active disabled{% endif %}"><a class="ajax-event" href="{{ pager.endUrl }}">&raquo;</a></li>
+	{% if pager.showLastButton %}
+		<li class="pager-end {% if pager.onLastPage %}active disabled{% endif %}">{% if pager.onLastPage %}&raquo;{% else %}<a class="ajax-event" href="{{ pager.lastPageUrl }}">&raquo;</a>{% endif %}</li>
 	{% endif %}
 </ul>

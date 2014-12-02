@@ -25,8 +25,8 @@ public class PagerTag extends AbstractGridTag<PagerTag> {
 		attributeDefinitions.add(new NamedAttributeDefinition("maxPageItems", false));
 		attributeDefinitions.add(new EmptyAttributeDefinition("showPreviousButton"));
 		attributeDefinitions.add(new EmptyAttributeDefinition("showNextButton"));
-		attributeDefinitions.add(new EmptyAttributeDefinition("showStartButton"));
-		attributeDefinitions.add(new EmptyAttributeDefinition("showEndButton"));
+		attributeDefinitions.add(new EmptyAttributeDefinition("showFirstButton"));
+		attributeDefinitions.add(new EmptyAttributeDefinition("showLastButton"));
 		return attributeDefinitions;
 	}
 
@@ -56,12 +56,12 @@ public class PagerTag extends AbstractGridTag<PagerTag> {
 			super(context, attributeCollection);
 		}
 		
-		public boolean showStartButton() {
-			return this.getAttributeCollection().hasAttribute("showStartButton");
+		public boolean showFirstButton() {
+			return this.getAttributeCollection().hasAttribute("showFirstButton");
 		}
 		
-		public boolean showEndButton() {
-			return this.getAttributeCollection().hasAttribute("showEndButton");
+		public boolean showLastButton() {
+			return this.getAttributeCollection().hasAttribute("showLastButton");
 		}
 		
 		public boolean showPreviousButton() {
@@ -72,27 +72,27 @@ public class PagerTag extends AbstractGridTag<PagerTag> {
 			return this.getAttributeCollection().hasAttribute("showNextButton");
 		}
 		
-		public boolean isFirstPage() {
+		public boolean isOnFirstPage() {
 			return this.getGrid().getCurrentPage() == 0;
 		}
 		
-		public boolean isLastPage() {
+		public boolean isOnLastPage() {
 			return getGrid().getCurrentPage() == this.getMaxPageNumber();
 		}
 		
-		public String getFirstUrl() {
+		public String getFirstPageUrl() {
 			return getGrid().getPageUrl(0);
 		}
 		
-		public String getLastUrl() {
+		public String getLastPageUrl() {
 			return getGrid().getPageUrl(this.getMaxPageNumber());
 		}
 		
-		public String getPreviousUrl() {
+		public String getPreviousPageUrl() {
 			return getGrid().getPageUrl(Math.max(getGrid().getCurrentPage() - 1, 0));
 		}
 		
-		public String getNextUrl() {
+		public String getNextPageUrl() {
 			return getGrid().getPageUrl(Math.min(getGrid().getCurrentPage() + 1, this.getMaxPageNumber()));
 		}
 		
