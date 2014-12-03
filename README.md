@@ -50,7 +50,7 @@ Dynamic attributes are allowed.
 
 | Attribute     | Required  | Default     | Description |
 | ------------- | --------- | ----------- | ----------- |
-| var           | true      |             | Define the name of the variable that contains the current row's data. |
+| var           | true      |             | Name of the variable that contains the current row's data. |
 | showFilterRow | false     | false       | Show the filter input fields beneath the header row. |
 
 #### Column ####
@@ -70,10 +70,87 @@ Must be defined inside of a `grid:table` tag.
 
 Dynamic attributes are allowed.
 
-| Attribute     | Required  | Default     | Description |
-| ------------- | --------- | ----------- | ----------- |
-| title         | false     |             | Define the column's title. Will be used in the table's header row. |
-| fieldName     | false     |             | Name of the field for data binding.  |
-| sortable      | false     | false       | Setting this attribute (withou a value) will make the column sortable. |
-| filterable    | false     | false       | Setting this attribute (withou a value) will make the column filterable. |
-| filterOptions | false     |             | Define a key - value map that contains options that are used for filtering. |
+| Attribute       | Required  | Default     | Description |
+| --------------- | --------- | ----------- | ----------- |
+| title           | false     |             | Column's title. Will be used in the table's header row. |
+| fieldName       | false     |             | Name of the field for data binding. |
+| sortable        | false     | false       | Make the column sortable. This is an empty attribute. |
+| filterable      | false     | false       | Make the column filterable. This is an empty attribute. |
+| filterOptions   | false     |             | A key - value map that contains options that are used for filtering. |
+| filterOperator  | false     | Type specific | Define how the values should be filtered. Possible values: `>`, `<`, `=`, `contains`. |
+| labelForTrue    | false     | True        | Label for the value `true` (used as filter option for boolean values). |
+| labelForFalse    | false    | False        | Label for the value `false` (used as filter option for boolean values). |
+
+#### Filter ####
+Renders an HTML input field to filter a grid column.
+
+```twig
+{% grid:grid %}
+  {% grid:filter fieldName="..." %}{% endgrid:filter %}
+{% endgrid:grid %}
+```
+
+Must be defined inside of a `grid:grid` tag.
+
+Dynamic attributes are allowed.
+
+| Attribute       | Required  | Default     | Description |
+| --------------- | --------- | ----------- | ----------- |
+| fieldName       | true      |             | Name of the field for data binding. |
+| defaultOperator | false     | Type specific | Define how the values should be filtered. Possible values: `>`, `<`, `=`, `contains`. |
+| showOperator    | false     |             | Show the operator. This is an empty attribute. |
+
+#### Limit ####
+Renders an HTML select field to select the number of rows on a page.
+
+```twig
+{% grid:grid %}
+  {% grid:limit steps="..." %}{% endgrid:limit %}
+{% endgrid:grid %}
+```
+
+Must be defined inside of a `grid:grid` tag.
+
+Dynamic attributes are allowed.
+
+| Attribute       | Required  | Default     | Description |
+| --------------- | --------- | ----------- | ----------- |
+| steps           | true      |             | Comma-separated numbers that define the possible page sizes. |
+
+#### Pager ####
+Renders the page navigation for the grid.
+
+```twig
+{% grid:grid %}
+  {% grid:pager %}{% endgrid:pager %}
+{% endgrid:grid %}
+```
+
+Must be defined inside of a `grid:grid` tag.
+
+Dynamic attributes are allowed.
+
+| Attribute           | Required  | Default     | Description |
+| ------------------- | --------- | ----------- | ----------- |
+| maxPageItems        | false     |             | Number of pages to list. |
+| showPreviousButton  | false     |             | Show the button to navigate to the previous page. This is an empty attribute. |
+| showNextButton  | false     |             | Show the button to navigate to the next page. This is an empty attribute. |
+| showFirstButton  | false     |             | Show the button to navigate to the first page. This is an empty attribute. |
+| showLastButton  | false     |             | Show the button to navigate to the last page. This is an empty attribute. |
+
+#### Submit ####
+Renders an HTML button to update the grid.
+
+```twig
+{% grid:grid %}
+  {% grid:submit %}
+    ...
+  {% endgrid:submit %}
+{% endgrid:grid %}
+```
+
+Must be defined inside of a `grid:grid` tag.
+
+The tag's content is used as label for the HTML 'button' element.
+
+Dynamic attributes are allowed.
