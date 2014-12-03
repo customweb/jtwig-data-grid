@@ -154,3 +154,36 @@ Must be defined inside of a `grid:grid` tag.
 The tag's content is used as label for the HTML 'button' element.
 
 Dynamic attributes are allowed.
+
+### Templates ###
+Each element has it's own template. By defining a custom resource resolver, you can override those and use your own templates.
+
+First, write an implementation by extending `com.customweb.jtwig.grid.model.AbstractResourceResolver`.
+
+```java
+public class MyResourceResolver extends AbstractResourceResolver {
+	@Override
+	public JtwigResource resolve(String resourceName) throws ResourceException {
+		...
+	}
+}
+```
+
+Then, register the resolver by calling it's register method.
+
+### Spring Integration ###
+To use the grid tags, they have to be registered first.
+
+```xml
+<bean id="viewResolver" class="com.lyncode.jtwig.mvc.JtwigViewResolver">
+	<property name="prefix" value="/WEB-INF/views/" />
+	<property name="suffix" value=".twig" />
+</bean>
+<bean class="com.customweb.jtwig.grid.spring.ViewResolverAddon" />
+
+#### Templates ####
+To use a custom resource resolver, it can be registered in the spring configuration:
+
+```xml
+<bean class="my.package.MyResourceResolver" init-method="register"/>
+```
