@@ -180,6 +180,7 @@ To use the grid tags, they have to be registered first.
 	<property name="suffix" value=".twig" />
 </bean>
 <bean class="com.customweb.jtwig.grid.spring.ViewResolverAddon" />
+```
 
 #### Templates ####
 To use a custom resource resolver, it can be registered in the spring configuration:
