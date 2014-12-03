@@ -1,6 +1,6 @@
 jtwig-data-grid
 ===============
-This library provides addons for the [Jtwig template engine](http://jtwig.org/) to build data grids. It is based on the (data-grid project)[https://github.com/customweb/data-grid]. It provides an easy integration with the Spring framework.
+This library provides addons for the [Jtwig template engine](http://jtwig.org/) to build data grids. It is based on the [data-grid project](https://github.com/customweb/data-grid). It provides an easy integration with the Spring framework.
 
 ## Installation ##
 The project contains a Maven .pom file to include all depencendies.
