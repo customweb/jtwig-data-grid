@@ -28,6 +28,7 @@ public class LimitTag extends AbstractGridTag<LimitTag> {
 
 	@Override
 	public Renderable compile(CompileContext context) throws CompileException {
+		this.getAttributeCollection().compile(context);
 		try {
 			JtwigResource resource = GridAddon.getResourceHandler().resolve("limit");
 			return new Compiled(context.parse(resource).compile(context), this.getAttributeCollection());

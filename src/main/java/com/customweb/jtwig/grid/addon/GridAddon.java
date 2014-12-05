@@ -1,5 +1,6 @@
 package com.customweb.jtwig.grid.addon;
 
+import com.customweb.jtwig.grid.model.DefaultResourceResolver;
 import com.customweb.jtwig.grid.tag.GridTag;
 import com.customweb.jtwig.lib.attribute.AttributeAddon;
 import com.customweb.jtwig.lib.template.ResourceHandler;
@@ -10,7 +11,7 @@ import com.lyncode.jtwig.resource.JtwigResource;
 
 public class GridAddon extends AttributeAddon<GridTag> {
 	
-	private static ResourceHandler resourceHandler = new ResourceHandler();
+	private static ResourceHandler resourceHandler = new ResourceHandler().addResolver(new DefaultResourceResolver());
 	
 	public static ResourceHandler getResourceHandler() {
 		return resourceHandler;

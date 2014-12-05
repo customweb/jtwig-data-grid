@@ -32,6 +32,7 @@ public class PagerTag extends AbstractGridTag<PagerTag> {
 
 	@Override
 	public Renderable compile(CompileContext context) throws CompileException {
+		this.getAttributeCollection().compile(context);
 		try {
 			JtwigResource resource = GridAddon.getResourceHandler().resolve("pager");
 			return new Compiled(context.parse(resource).compile(context), this.getAttributeCollection());

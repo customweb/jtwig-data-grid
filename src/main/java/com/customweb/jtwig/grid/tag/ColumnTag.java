@@ -109,12 +109,16 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 		}
 
 		public void renderHeader(RenderContext context) throws RenderException {
+			this.getAttributeCollection().render(context);
+			
 			context = this.isolatedModel(context);
 			context.with("columnHeader", new HeaderData(context, this.getAttributeCollection()));
 			this.getHeaderBlock().render(context);
 		}
 
 		public void renderFilter(RenderContext context) throws RenderException {
+			this.getAttributeCollection().render(context);
+			
 			context = this.isolatedModel(context);
 			context.with("columnFilter", new FilterData(context, this.getAttributeCollection()));
 			this.getFilterBlock().render(context);
@@ -227,7 +231,7 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 				values.put("false", getLabelForFalse());
 				return values;
 			} else if (this.getAttributeCollection().hasAttribute("filterOptions")) {
-				return (Map<String, String>) this.getAttributeCollection().getAttribute("filterOptions", VariableAttribute.class).getVariable(this.getContext());
+				return (Map<String, String>) this.getAttributeCollection().getAttribute("filterOptions", VariableAttribute.class).getVariable();
 			} else {
 				return null;
 			}

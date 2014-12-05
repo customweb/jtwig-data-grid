@@ -29,6 +29,7 @@ public class FilterTag extends AbstractGridTag<FilterTag> {
 
 	@Override
 	public Renderable compile(CompileContext context) throws CompileException {
+		this.getAttributeCollection().compile(context);
 		try {
 			JtwigResource resource = GridAddon.getResourceHandler().resolve("filter");
 			return new Compiled(context.parse(resource).compile(context), this.getAttributeCollection());
