@@ -57,7 +57,10 @@
 	};
 
 	AjaxPane.prototype.replace = function(content) {
-		var newContentElement = $(content).closest("#" + this.element.attr('id'));
+		var newContentElement = $(content).find("#" + this.element.attr('id'));
+		if (newContentElement.length == 0) {
+			newContentElement = $(content).closest("#" + this.element.attr('id'));
+		}
 		if (newContentElement.length > 0) {
 			var newContent = newContentElement.html();
 			this.element.find('form').replaceWith(newContent);
