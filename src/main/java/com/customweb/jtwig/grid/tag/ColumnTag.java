@@ -1,21 +1,24 @@
 package com.customweb.jtwig.grid.tag;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.util.ObjectUtils;
 
 import com.customweb.grid.util.Property;
 import com.customweb.grid.util.UrlEncodedQueryString;
 import com.customweb.jtwig.grid.addon.GridAddon;
 import com.customweb.jtwig.lib.attribute.model.AttributeCollection;
+import com.customweb.jtwig.lib.attribute.model.DynamicAttribute;
 import com.customweb.jtwig.lib.attribute.model.VariableAttribute;
 import com.customweb.jtwig.lib.attribute.model.definition.AttributeDefinitionCollection;
 import com.customweb.jtwig.lib.attribute.model.definition.EmptyAttributeDefinition;
 import com.customweb.jtwig.lib.attribute.model.definition.NamedAttributeDefinition;
 import com.customweb.jtwig.lib.attribute.model.definition.VariableAttributeDefinition;
+import com.customweb.jtwig.lib.model.ObjectExtractor;
 import com.lyncode.jtwig.compile.CompileContext;
 import com.lyncode.jtwig.content.api.Renderable;
 import com.lyncode.jtwig.exception.CompileException;
@@ -24,6 +27,7 @@ import com.lyncode.jtwig.exception.RenderException;
 import com.lyncode.jtwig.exception.ResourceException;
 import com.lyncode.jtwig.render.RenderContext;
 import com.lyncode.jtwig.resource.JtwigResource;
+import com.lyncode.jtwig.util.ObjectExtractor.ExtractException;
 
 public class ColumnTag extends AbstractGridTag<ColumnTag> {
 
@@ -143,18 +147,30 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 			this.content = content;
 		}
 		
-		public String getContent() {
+		public String getContent() throws ExtractException {
 			if (this.content != null && !this.content.isEmpty()) {
 				return this.content;
 			} else {
 				Object target = this.getContext().map(TableTag.ROW_MODEL_VARIABLE_NAME);
 				if (this.getFieldName() != null) {
-					BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(target);
-					return ObjectUtils.nullSafeToString(beanWrapper.getPropertyValue(this.getFieldName()));
+					return ObjectUtils.nullSafeToString(ObjectExtractor.extract(target, this.getFieldName()));
 				} else {
 					return "";
 				}
 			}
+		}
+		
+		@Override
+		public Collection<DynamicAttribute> getDynamicAttributes() {
+			List<DynamicAttribute> attributes = new ArrayList<DynamicAttribute>();
+			for (DynamicAttribute attribute : super.getDynamicAttributes()) {
+				if (attribute.getKey().startsWith("body-")) {
+					attributes.add(new DynamicAttribute(attribute.getKey().replace("body-", ""), attribute.getValue()));
+				} else if (!attribute.getKey().startsWith("header-") && !attribute.getKey().startsWith("filter-")) {
+					attributes.add(attribute);
+				}
+			}
+			return attributes;
 		}
 	}
 
@@ -197,6 +213,19 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 			} else {
 				return this.getGrid().getSortingUrl(getFieldName(), true, false);
 			}
+		}
+		
+		@Override
+		public Collection<DynamicAttribute> getDynamicAttributes() {
+			List<DynamicAttribute> attributes = new ArrayList<DynamicAttribute>();
+			for (DynamicAttribute attribute : super.getDynamicAttributes()) {
+				if (attribute.getKey().startsWith("header-")) {
+					attributes.add(new DynamicAttribute(attribute.getKey().replace("header-", ""), attribute.getValue()));
+				} else if (!attribute.getKey().startsWith("body-") && !attribute.getKey().startsWith("filter-")) {
+					attributes.add(attribute);
+				}
+			}
+			return attributes;
 		}
 	}
 
@@ -265,6 +294,19 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 		
 		private String getLabelForFalse() {
 			return this.getAttributeValue("labelForFalse", "False");
+		}
+		
+		@Override
+		public Collection<DynamicAttribute> getDynamicAttributes() {
+			List<DynamicAttribute> attributes = new ArrayList<DynamicAttribute>();
+			for (DynamicAttribute attribute : super.getDynamicAttributes()) {
+				if (attribute.getKey().startsWith("filter-")) {
+					attributes.add(new DynamicAttribute(attribute.getKey().replace("filter-", ""), attribute.getValue()));
+				} else if (!attribute.getKey().startsWith("body-") && !attribute.getKey().startsWith("header-")) {
+					attributes.add(attribute);
+				}
+			}
+			return attributes;
 		}
 	}
 

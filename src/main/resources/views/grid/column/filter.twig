@@ -1,7 +1,7 @@
 <th {{ columnFilter.dynamicAttributes|join(' ') }}>
 	{% if columnFilter.filterable %}
 		{% if (columnFilter.type == 'select') %}
-			<select name="{{ columnFilter.name }}" class="ajax-event form-control">
+			<select name="{{ columnFilter.name }}" class="ajax-event">
 				{% for value, key in columnFilter.options %}
 					<option {% if (value == columnFilter.value) %}selected="selected"{% endif %} value="{{ value }}">{{ key }}</option>
 				{% endfor %}
