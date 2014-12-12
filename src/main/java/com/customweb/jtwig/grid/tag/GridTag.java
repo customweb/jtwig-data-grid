@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.customweb.grid.Grid;
 import com.customweb.grid.filter.OrderBy;
-import com.customweb.jtwig.grid.addon.GridAddon;
 import com.customweb.jtwig.lib.attribute.model.AttributeCollection;
 import com.customweb.jtwig.lib.attribute.model.definition.AttributeDefinitionCollection;
 import com.customweb.jtwig.lib.attribute.model.definition.EmptyAttributeDefinition;
@@ -35,7 +34,7 @@ public class GridTag extends AbstractGridTag<GridTag> {
 	@Override
 	public Renderable compile(CompileContext context) throws CompileException {
 		try {
-			JtwigResource resource = GridAddon.getResourceHandler().resolve("grid");
+			JtwigResource resource = this.retrieveResource(context, "grid/grid");
 			return new Compiled(context.parse(resource).compile(context), super.compile(context), this.getAttributeCollection());
 		} catch (ParseException | ResourceException e) {
 			throw new CompileException(e);

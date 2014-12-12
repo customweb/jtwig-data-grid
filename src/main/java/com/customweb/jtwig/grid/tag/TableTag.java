@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.customweb.grid.Grid;
-import com.customweb.jtwig.grid.addon.GridAddon;
 import com.customweb.jtwig.lib.attribute.model.AbstractAttributeTag;
 import com.customweb.jtwig.lib.attribute.model.AttributeCollection;
 import com.customweb.jtwig.lib.attribute.model.definition.AttributeDefinitionCollection;
@@ -37,7 +36,7 @@ public class TableTag extends AbstractAttributeTag<TableTag> {
 	@Override
 	public Renderable compile(CompileContext context) throws CompileException {
 		try {
-			JtwigResource resource = GridAddon.getResourceHandler().resolve("table");
+			JtwigResource resource = this.retrieveResource(context, "grid/table");
 			return new Compiled(context.parse(resource).compile(context), super.compile(context), this.getAttributeCollection());
 		} catch (ParseException | ResourceException e) {
 			throw new CompileException(e);

@@ -10,7 +10,6 @@ import org.springframework.util.ObjectUtils;
 
 import com.customweb.grid.util.Property;
 import com.customweb.grid.util.UrlEncodedQueryString;
-import com.customweb.jtwig.grid.addon.GridAddon;
 import com.customweb.jtwig.lib.attribute.model.AttributeCollection;
 import com.customweb.jtwig.lib.attribute.model.DynamicAttribute;
 import com.customweb.jtwig.lib.attribute.model.VariableAttribute;
@@ -54,9 +53,9 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 	@Override
 	public Renderable compile(CompileContext context) throws CompileException {
 		try {
-			JtwigResource resource = GridAddon.getResourceHandler().resolve("column");
-			JtwigResource headerResource = GridAddon.getResourceHandler().resolve("column/header");
-			JtwigResource filterResource = GridAddon.getResourceHandler().resolve("column/filter");
+			JtwigResource resource = this.retrieveResource(context, "grid/column");
+			JtwigResource headerResource = this.retrieveResource(context, "grid/column/header");
+			JtwigResource filterResource = this.retrieveResource(context, "grid/column/filter");
 			return new Compiled(context.parse(resource).compile(context), context.parse(headerResource).compile(context), context.parse(
 					filterResource).compile(context), super.compile(context), this.getAttributeCollection());
 		} catch (ParseException | ResourceException e) {

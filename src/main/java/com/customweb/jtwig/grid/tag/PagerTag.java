@@ -3,7 +3,6 @@ package com.customweb.jtwig.grid.tag;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.customweb.jtwig.grid.addon.GridAddon;
 import com.customweb.jtwig.lib.attribute.model.AttributeCollection;
 import com.customweb.jtwig.lib.attribute.model.definition.AttributeDefinitionCollection;
 import com.customweb.jtwig.lib.attribute.model.definition.EmptyAttributeDefinition;
@@ -34,7 +33,7 @@ public class PagerTag extends AbstractGridTag<PagerTag> {
 	public Renderable compile(CompileContext context) throws CompileException {
 		this.getAttributeCollection().compile(context);
 		try {
-			JtwigResource resource = GridAddon.getResourceHandler().resolve("pager");
+			JtwigResource resource = this.retrieveResource(context, "grid/pager");
 			return new Compiled(context.parse(resource).compile(context), this.getAttributeCollection());
 		} catch (ParseException | ResourceException e) {
 			throw new CompileException(e);

@@ -1,7 +1,6 @@
 package com.customweb.jtwig.grid.tag;
 
 import com.customweb.grid.util.UrlEncodedQueryString;
-import com.customweb.jtwig.grid.addon.GridAddon;
 import com.customweb.jtwig.lib.attribute.model.AttributeCollection;
 import com.customweb.jtwig.lib.attribute.model.definition.AttributeDefinitionCollection;
 import com.customweb.jtwig.lib.attribute.model.definition.EmptyAttributeDefinition;
@@ -31,7 +30,7 @@ public class FilterTag extends AbstractGridTag<FilterTag> {
 	public Renderable compile(CompileContext context) throws CompileException {
 		this.getAttributeCollection().compile(context);
 		try {
-			JtwigResource resource = GridAddon.getResourceHandler().resolve("filter");
+			JtwigResource resource = this.retrieveResource(context, "grid/filter");
 			return new Compiled(context.parse(resource).compile(context), this.getAttributeCollection());
 		} catch (ParseException | ResourceException e) {
 			throw new CompileException(e);

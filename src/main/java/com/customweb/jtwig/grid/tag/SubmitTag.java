@@ -1,6 +1,5 @@
 package com.customweb.jtwig.grid.tag;
 
-import com.customweb.jtwig.grid.addon.GridAddon;
 import com.customweb.jtwig.lib.attribute.model.AttributeCollection;
 import com.customweb.jtwig.lib.attribute.model.definition.AttributeDefinitionCollection;
 import com.lyncode.jtwig.compile.CompileContext;
@@ -24,7 +23,7 @@ public class SubmitTag extends AbstractGridTag<SubmitTag> {
 	@Override
 	public Renderable compile(CompileContext context) throws CompileException {
 		try {
-			JtwigResource resource = GridAddon.getResourceHandler().resolve("submit");
+			JtwigResource resource = this.retrieveResource(context, "grid/submit");
 			return new Compiled(context.parse(resource).compile(context), super.compile(context), this.getAttributeCollection());
 		} catch (ParseException | ResourceException e) {
 			throw new CompileException(e);
