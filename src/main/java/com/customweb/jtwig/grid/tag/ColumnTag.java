@@ -6,6 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jtwig.compile.CompileContext;
+import org.jtwig.content.api.Renderable;
+import org.jtwig.exception.CompileException;
+import org.jtwig.exception.ParseException;
+import org.jtwig.exception.RenderException;
+import org.jtwig.exception.ResourceException;
+import org.jtwig.loader.Loader;
+import org.jtwig.render.RenderContext;
+import org.jtwig.util.ObjectExtractor.ExtractException;
 import org.springframework.util.ObjectUtils;
 
 import com.customweb.grid.util.Property;
@@ -18,15 +27,6 @@ import com.customweb.jtwig.lib.attribute.model.definition.EmptyAttributeDefiniti
 import com.customweb.jtwig.lib.attribute.model.definition.NamedAttributeDefinition;
 import com.customweb.jtwig.lib.attribute.model.definition.VariableAttributeDefinition;
 import com.customweb.jtwig.lib.model.ObjectExtractor;
-import com.lyncode.jtwig.compile.CompileContext;
-import com.lyncode.jtwig.content.api.Renderable;
-import com.lyncode.jtwig.exception.CompileException;
-import com.lyncode.jtwig.exception.ParseException;
-import com.lyncode.jtwig.exception.RenderException;
-import com.lyncode.jtwig.exception.ResourceException;
-import com.lyncode.jtwig.render.RenderContext;
-import com.lyncode.jtwig.resource.JtwigResource;
-import com.lyncode.jtwig.util.ObjectExtractor.ExtractException;
 
 public class ColumnTag extends AbstractGridTag<ColumnTag> {
 
@@ -53,10 +53,10 @@ public class ColumnTag extends AbstractGridTag<ColumnTag> {
 	@Override
 	public Renderable compile(CompileContext context) throws CompileException {
 		try {
-			JtwigResource resource = this.retrieveResource(context, "grid/column");
-			JtwigResource headerResource = this.retrieveResource(context, "grid/column/header");
-			JtwigResource filterResource = this.retrieveResource(context, "grid/column/filter");
-			return new Compiled(context.parse(resource).compile(context), context.parse(headerResource).compile(context), context.parse(
+			Loader.Resource resource = this.retrieveResource(context, "grid/column");
+			Loader.Resource headerResource = this.retrieveResource(context, "grid/column/header");
+			Loader.Resource filterResource = this.retrieveResource(context, "grid/column/filter");
+			return new Compiled(context.environment().parse(resource).compile(context), context.environment().parse(headerResource).compile(context), context.environment().parse(
 					filterResource).compile(context), super.compile(context), this.getAttributeCollection());
 		} catch (ParseException | ResourceException e) {
 			throw new CompileException(e);

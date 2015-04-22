@@ -1,14 +1,15 @@
 package com.customweb.jtwig.grid.addon;
 
+import org.jtwig.Environment;
+import org.jtwig.loader.Loader;
+
 import com.customweb.jtwig.grid.tag.SubmitTag;
 import com.customweb.jtwig.lib.attribute.AttributeAddon;
-import com.lyncode.jtwig.parser.config.ParserConfiguration;
-import com.lyncode.jtwig.resource.JtwigResource;
 
 public class SubmitAddon extends AttributeAddon<SubmitTag> {
 
-	public SubmitAddon(JtwigResource resource, ParserConfiguration configuration) {
-		super(resource, configuration);
+	public SubmitAddon(Loader.Resource resource, Environment environment) {
+		super(resource, environment);
 	}
 
 	@Override

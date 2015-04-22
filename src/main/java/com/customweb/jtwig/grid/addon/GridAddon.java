@@ -1,26 +1,27 @@
 package com.customweb.jtwig.grid.addon;
 
+import org.jtwig.Environment;
+import org.jtwig.configuration.JtwigConfiguration;
+import org.jtwig.loader.Loader;
+
 import com.customweb.jtwig.grid.tag.GridTag;
 import com.customweb.jtwig.lib.attribute.AttributeAddon;
-import com.lyncode.jtwig.configuration.JtwigConfiguration;
-import com.lyncode.jtwig.parser.config.ParserConfiguration;
-import com.lyncode.jtwig.resource.JtwigResource;
 
 
 public class GridAddon extends AttributeAddon<GridTag> {
 	
-	public static void addons(JtwigConfiguration config) {
-		config.parse().addons().withAddon(GridAddon.class);
-		config.parse().addons().withAddon(TableAddon.class);
-		config.parse().addons().withAddon(ColumnAddon.class);
-		config.parse().addons().withAddon(PagerAddon.class);
-		config.parse().addons().withAddon(LimitAddon.class);
-		config.parse().addons().withAddon(FilterAddon.class);
-		config.parse().addons().withAddon(SubmitAddon.class);
+	public static void addons(JtwigConfiguration configuration) {
+		configuration.getAddonParserList().withAddon(GridAddon.class);
+		configuration.getAddonParserList().withAddon(TableAddon.class);
+		configuration.getAddonParserList().withAddon(ColumnAddon.class);
+		configuration.getAddonParserList().withAddon(PagerAddon.class);
+		configuration.getAddonParserList().withAddon(LimitAddon.class);
+		configuration.getAddonParserList().withAddon(FilterAddon.class);
+		configuration.getAddonParserList().withAddon(SubmitAddon.class);
 	}
 
-	public GridAddon(JtwigResource resource, ParserConfiguration configuration) {
-		super(resource, configuration);
+	public GridAddon(Loader.Resource resource, Environment environment) {
+		super(resource, environment);
 	}
 
 	@Override

@@ -1,14 +1,15 @@
 package com.customweb.jtwig.grid.addon;
 
+import org.jtwig.Environment;
+import org.jtwig.loader.Loader;
+
 import com.customweb.jtwig.grid.tag.FilterTag;
 import com.customweb.jtwig.lib.attribute.AttributeAddon;
-import com.lyncode.jtwig.parser.config.ParserConfiguration;
-import com.lyncode.jtwig.resource.JtwigResource;
 
 public class FilterAddon extends AttributeAddon<FilterTag> {
 
-	public FilterAddon(JtwigResource resource, ParserConfiguration configuration) {
-		super(resource, configuration);
+	public FilterAddon(Loader.Resource resource, Environment environment) {
+		super(resource, environment);
 	}
 
 	@Override

@@ -1,11 +1,12 @@
 package com.customweb.jtwig.grid.tag;
 
+import org.jtwig.content.api.Renderable;
+import org.jtwig.render.RenderContext;
+
 import com.customweb.grid.Grid;
 import com.customweb.jtwig.lib.attribute.model.AbstractAttributeTag;
 import com.customweb.jtwig.lib.attribute.model.AttributeCollection;
 import com.customweb.jtwig.lib.attribute.model.DynamicAttribute;
-import com.lyncode.jtwig.content.api.Renderable;
-import com.lyncode.jtwig.render.RenderContext;
 
 abstract public class AbstractGridTag<T extends AbstractGridTag<T>> extends AbstractAttributeTag<T> {
 	public static final String DEFAULT_MODEL_ATTRIBUTE_NAME = "gridModel";
